@@ -4,15 +4,15 @@ digits.
 
 import numpy as np
 import bentoml
-from torch import Tensor
+from bentoml.io import NumpyNdarray
 
-BENTO_MODEL_TAG = "torch_model:k45ivbansohbrrdv"
+BENTO_MODEL_TAG = "torch_model_86:26bscybtekyarrdv"
 
 
 classifier_runner = bentoml.pytorch.get(BENTO_MODEL_TAG).to_runner()
 
-mnist_service = bentoml.Service("pothole_classifier_v0_5", runners=[classifier_runner])
+torch_service = bentoml.Service("torch_service", runners=[classifier_runner])
 
-@mnist_service.api(input=Tensor, output=Tensor)
-def classify(input_data: Tensor) -> Tensor:
+@torch_service.api(input=NumpyNdarray(), output=NumpyNdarray())
+def classify(input_data: np.ndarray) -> np.ndarray:
     return classifier_runner.predict.run(input_data)

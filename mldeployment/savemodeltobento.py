@@ -37,8 +37,13 @@ def load_model_and_save_it_to_bento(model_file: Path) -> None:
     # PyTorch models inherit from torch.nn.Module
     """Loads a keras model from disk and saves it to BentoML."""
     # For loading the entire model 
-    model = torch.load('final_model')
-    bento_model = bentoml.pytorch.save_model("torch_model", model)
+    if torch.cuda.is_available():
+        map_location = torch.device('cuda')
+    else:
+        map_location = torch.device('cpu')
+
+    model = torch.load('full_model_final_86', map_location=map_location)
+    bento_model = bentoml.pytorch.save_model("torch_model_86", model)
     print(f"Bento model tag = {bento_model.tag}")
 
 

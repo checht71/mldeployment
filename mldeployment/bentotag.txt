@@ -1,2 +1,0 @@
-Bento model tag = torch_model:k45ivbansohbrrdv
-
